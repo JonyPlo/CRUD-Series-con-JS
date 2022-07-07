@@ -6,6 +6,16 @@ import {
   validarUrl,
   validarGenero,
 } from "../helpers/validacionesFormSerie.js";
+import mostrarOcultarTabla from "./mostrarOcultarTablaAdmin.js";
+
+// Variable con el arreglo de objetos del LS
+let listaSeries = JSON.parse(localStorage.getItem("Series"));
+
+// Este if valida, si la key Series no existe en el LS, entonces me genera una nueva key Series con un array vacio
+if (!listaSeries) {
+  localStorage.setItem("Series", JSON.stringify([]));
+  listaSeries = JSON.parse(localStorage.getItem("Series"));
+}
 
 // Variables de los inputs del form de serie
 let codigo = document.getElementById("codigo");
@@ -14,15 +24,13 @@ let descripcion = document.getElementById("descripcion");
 let urlImg = document.getElementById("urlImg");
 let genero = document.getElementById("genero");
 let formulario = document.getElementById("formSerie");
-// Variable para guardar el arreglo de LS
-let listaSeries =
-  JSON.parse(localStorage.getItem("Series")).length > 0
-    ? JSON.parse(localStorage.getItem("Series"))
-    : [];
 // Variables para manejar el modal
 let btnModal = document.getElementById("btnModal");
 const modalAdmin = new bootstrap.Modal(document.getElementById("modal"));
 
+// Funcion para verificar si el LS tiene datos muestra la tabla, de lo contrario muestra un texto
+mostrarOcultarTabla(listaSeries);
+listaSeries = ["jaja", "hola"]
 // Funcion para generar el id de la Serie
 btnModal.addEventListener("click", () => {
   LimpiarFormulario();
