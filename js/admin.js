@@ -18,7 +18,7 @@ if (!listaSeries) {
 }
 
 // Funcion para verificar si el LS tiene datos muestra la tabla, de lo contrario muestra un texto
-mostrarOcultarTabla(listaSeries); 
+mostrarOcultarTabla(listaSeries);
 
 // Variables de los inputs del form de serie
 let codigo = document.getElementById("codigo");
@@ -31,13 +31,11 @@ let formulario = document.getElementById("formSerie");
 let btnModal = document.getElementById("btnModal");
 const modalAdmin = new bootstrap.Modal(document.getElementById("modal"));
 
-
 // Funcion para generar el id de la Serie
 btnModal.addEventListener("click", () => {
   LimpiarFormulario();
-  modalAdmin.show();
-  // Funcion para crear el codigo
-  generarId();
+  generarId(); // Funcion para crear el codigo
+  modalAdmin.show(); //Muestro el modal
 });
 
 // Validaciones en tiempo real
@@ -90,8 +88,8 @@ const guardarSerieLS = () => {
   }).then((result) => {
     if (result.isConfirmed) {
       localStorage.setItem("Series", JSON.stringify(listaSeries));
-      borrarFilas() // Borro las filas
-      cargaInicial() // Vuelvo a dibujar las filas con el arreglo actualizado
+      borrarFilas(); // Borro las filas
+      cargaInicial(); // Vuelvo a dibujar las filas con el arreglo actualizado
       modalAdmin.hide();
       Swal.fire(
         "Serie guardada!",
@@ -106,15 +104,17 @@ const guardarSerieLS = () => {
 const borrarFilas = () => {
   const tbody = document.getElementById("tbodySeries");
   tbody.innerHTML = "";
-}
+};
 
 // Funcion para limpiar los inputs del form
 function LimpiarFormulario() {
   formulario.reset();
-  titulo.className = "form-control";
-  descripcion.className = "form-control";
-  urlImg.className = "form-control";
-  genero.className = "form-select";
+  let inputs = document.getElementsByClassName("form-control");
+  //Quito la clase is-valid, is-invalid de los inputs
+  for (let i = 1; i < inputs.length; i++) {
+    inputs[i].classList.remove("is-valid");
+    inputs[i].classList.remove("is-invalid");
+  }
   generarId();
 }
 
