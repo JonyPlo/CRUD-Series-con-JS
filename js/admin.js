@@ -17,6 +17,9 @@ if (!listaSeries) {
   listaSeries = JSON.parse(localStorage.getItem("Series"));
 }
 
+// Funcion para verificar si el LS tiene datos muestra la tabla, de lo contrario muestra un texto
+mostrarOcultarTabla(listaSeries); 
+
 // Variables de los inputs del form de serie
 let codigo = document.getElementById("codigo");
 let titulo = document.getElementById("titulo");
@@ -28,9 +31,7 @@ let formulario = document.getElementById("formSerie");
 let btnModal = document.getElementById("btnModal");
 const modalAdmin = new bootstrap.Modal(document.getElementById("modal"));
 
-// Funcion para verificar si el LS tiene datos muestra la tabla, de lo contrario muestra un texto
-mostrarOcultarTabla(listaSeries);
-listaSeries = ["jaja", "hola"]
+
 // Funcion para generar el id de la Serie
 btnModal.addEventListener("click", () => {
   LimpiarFormulario();
@@ -89,6 +90,8 @@ const guardarSerieLS = () => {
   }).then((result) => {
     if (result.isConfirmed) {
       localStorage.setItem("Series", JSON.stringify(listaSeries));
+      borrarFilas() // Borro las filas
+      cargaInicial() // Vuelvo a dibujar las filas con el arreglo actualizado
       modalAdmin.hide();
       Swal.fire(
         "Serie guardada!",
@@ -98,6 +101,12 @@ const guardarSerieLS = () => {
     }
   });
 };
+
+// Funcion para borrar las filas de la tabla
+const borrarFilas = () => {
+  const tbody = document.getElementById("tbodySeries");
+  tbody.innerHTML = "";
+}
 
 // Funcion para limpiar los inputs del form
 function LimpiarFormulario() {
@@ -123,29 +132,31 @@ const cargaInicial = () => {
 
 const crearFilas = (serie) => {
   const tbody = document.getElementById("tbodySeries");
-  tbody.innerHTML += `
-      <tr>
-        <td scope="row">${serie.codigo}</td>
-        <td>${serie.titulo}</td>
-        <td>
-          <div class="td-descripcion">
-            ${serie.descripcion}
-          </div>
-        </td>
-        <td>
-          ${serie.urlImg}
-        </td>
-        <td>${serie.genero}</td>
-        <td class="buttons-table tex-center">
-          <button class="btn btn-warning">
-            <i class="bi bi-pencil-square"></i>
-          </button>
-          <button class="btn btn-danger ms-1">
-            <i class="bi bi-x-square"></i>
-          </button>
-        </td>
-      </tr>
-      `;
+  if (tbody) {
+    tbody.innerHTML += `
+        <tr>
+          <td scope="row">${serie.codigo}</td>
+          <td>${serie.titulo}</td>
+          <td>
+            <div class="td-descripcion">
+              ${serie.descripcion}
+            </div>
+          </td>
+          <td>
+            ${serie.urlImg}
+          </td>
+          <td>${serie.genero}</td>
+          <td class="buttons-table tex-center">
+            <button class="btn btn-warning">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="btn btn-danger ms-1">
+              <i class="bi bi-x-square"></i>
+            </button>
+          </td>
+        </tr>
+        `;
+  }
 };
 
 cargaInicial();

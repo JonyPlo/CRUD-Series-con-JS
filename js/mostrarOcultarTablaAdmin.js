@@ -2,12 +2,11 @@
 
 // Variable del article de la tabla
 let articleTable = document.getElementById("articleTabla");
-console.log(articleTable);
 
 const mostrarOcultarTabla = (arrayLS) => {
   if (arrayLS.length > 0) {
     articleTable.innerHTML = `
-        <table class="table d-none">
+        <table class="table">
             <thead>
               <tr>
                 <th scope="col">Cod.</th>
