@@ -7,20 +7,31 @@ import {
   validarGenero,
 } from "../helpers/validacionesFormSerie.js";
 
-// Traemos los elementos que nos interesan
+// Variables de los inputs del form de serie
 let codigo = document.getElementById("codigo");
 let titulo = document.getElementById("titulo");
 let descripcion = document.getElementById("descripcion");
 let urlImg = document.getElementById("urlImg");
 let genero = document.getElementById("genero");
 let formulario = document.getElementById("formSerie");
-let listaSeries = [];
-let abrirModal = document.getElementById("abrirModal");
+// Variable para guardar el arreglo de LS
+let listaSeries =
+  JSON.parse(localStorage.getItem("Series")).length > 0
+    ? JSON.parse(localStorage.getItem("Series"))
+    : [];
+// Variables para manejar el modal
+let btnModal = document.getElementById("btnModal");
+const modalAdmin = new bootstrap.Modal(document.getElementById("modal"));
 
 // Funcion para generar el id de la Serie
-abrirModal.addEventListener("click", generarId);
+btnModal.addEventListener("click", () => {
+  LimpiarFormulario();
+  modalAdmin.show();
+  // Funcion para crear el codigo
+  generarId();
+});
 
-// Agregar validaciones
+// Validaciones en tiempo real
 titulo.addEventListener("keyup", () => validarTitulo(titulo));
 descripcion.addEventListener("keyup", () => validarDescripcion(descripcion));
 urlImg.addEventListener("keyup", () => validarUrl(urlImg));
@@ -29,7 +40,21 @@ genero.addEventListener("change", () => validarGenero(genero));
 // Creamos la funcion para dar de alta una Serie
 const crearSerie = (e) => {
   e.preventDefault();
-  // Volver a validar campos
+  // Volver a validar campos antes de enviarlos
+  if (
+    !validarTitulo(titulo) ||
+    !validarDescripcion(descripcion) ||
+    !validarUrl(urlImg) ||
+    !validarGenero(genero)
+  ) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Alguna validacion no es correcta!",
+    });
+    return;
+  }
+
   const nuevaSerie = new Serie(
     codigo.value,
     titulo.value,
@@ -37,15 +62,82 @@ const crearSerie = (e) => {
     urlImg.value,
     genero.value
   );
-  console.log(nuevaSerie);
-  listaSeries.push(nuevaSerie);
-  console.log(listaSeries);
 
+  listaSeries.push(nuevaSerie);
+  guardarSerieLS();
   LimpiarFormulario(); // Limpiar los inputs
 };
 
+// Funcion para confirmar que la serie se guarde en el LS
+const guardarSerieLS = () => {
+  Swal.fire({
+    title: "Seguro que quiere guardar la serie?",
+    text: "La serie se guardara!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Guardar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.setItem("Series", JSON.stringify(listaSeries));
+      modalAdmin.hide();
+      Swal.fire(
+        "Serie guardada!",
+        "La serie se guardo correctamente.",
+        "success"
+      );
+    }
+  });
+};
+
+// Funcion para limpiar los inputs del form
 function LimpiarFormulario() {
   formulario.reset();
+  titulo.className = "form-control";
+  descripcion.className = "form-control";
+  urlImg.className = "form-control";
+  genero.className = "form-select";
+  generarId();
 }
 
+// Agrego el evento submit al form con su funcion para dar de alta la serie
 formulario.addEventListener("submit", crearSerie);
+
+// Con estas funciones agrego las filas a la tabla con los datos almacenados en el LS
+const cargaInicial = () => {
+  if (listaSeries.length > 0) {
+    listaSeries.forEach((serie) => {
+      crearFilas(serie);
+    });
+  }
+};
+
+const crearFilas = (serie) => {
+  const tbody = document.getElementById("tbodySeries");
+  tbody.innerHTML += `
+      <tr>
+        <td scope="row">${serie.codigo}</td>
+        <td>${serie.titulo}</td>
+        <td>
+          <div class="td-descripcion">
+            ${serie.descripcion}
+          </div>
+        </td>
+        <td>
+          ${serie.urlImg}
+        </td>
+        <td>${serie.genero}</td>
+        <td class="buttons-table tex-center">
+          <button class="btn btn-warning">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button class="btn btn-danger ms-1">
+            <i class="bi bi-x-square"></i>
+          </button>
+        </td>
+      </tr>
+      `;
+};
+
+cargaInicial();

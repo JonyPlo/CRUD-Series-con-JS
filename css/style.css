@@ -1,7 +1,16 @@
-main{
-    min-height: calc(100vh - 56px - 120px);
+main {
+  min-height: calc(100vh - 56px - 120px);
 }
 
-.buttons-table{
-    width: 110px;
+.buttons-table {
+  width: 110px;
+}
+
+.td-descripcion {
+  overflow: hidden;
+  width: 300px; /*cambiando esto elegimos el ancho del texto */
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1; /*cambiando este numero elegimos la cantidad de filas que queremos que muestre el texto*/
 }

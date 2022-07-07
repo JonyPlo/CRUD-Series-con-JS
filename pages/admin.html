@@ -14,6 +14,7 @@
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
     />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../css/style.css" />
     <title>CRUD Series</title>
   </head>
@@ -53,12 +54,7 @@
       <hr />
       <section class="d-flex align-items-center">
         <p class="m-0">Opciones:</p>
-        <button
-          class="btn btn-outline-primary ms-3"
-          data-bs-toggle="modal"
-          data-bs-target="#modal"
-          id="abrirModal"
-        >
+        <button class="btn btn-outline-primary ms-3" id="btnModal">
           <i class="bi bi-clipboard-check-fill"></i>
         </button>
       </section>
@@ -77,38 +73,7 @@
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
-            <tbody id="listaSeries">
-              <tr>
-                <td scope="row">1</td>
-                <td>Bleach</td>
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Dolorum corporis atque itaque quis illum veniam molestiae
-                  eligendi impedit molestias amet!
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Dolorum corporis atque itaque quis illum veniam molestiae
-                  eligendi impedit molestias amet!
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Dolorum corporis atque itaque quis illum veniam molestiae
-                  eligendi impedit molestias amet!
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Dolorum corporis atque itaque quis illum veniam molestiae
-                  eligendi impedit molestias amet!
-                </td>
-                <td>
-                  https://campus.rollingcodeschool.com/mod/forum/view.php?id=17742
-                </td>
-                <td>Accion</td>
-                <td class="buttons-table tex-center">
-                  <button class="btn btn-warning">
-                    <i class="bi bi-pencil-square"></i>
-                  </button>
-                  <button class="btn btn-danger ms-1">
-                    <i class="bi bi-x-square"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
+            <tbody id="tbodySeries"></tbody>
           </table>
         </article>
         <!-- Modal -->
