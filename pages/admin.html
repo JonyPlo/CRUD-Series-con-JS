@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+    />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -46,22 +49,23 @@
       </nav>
     </header>
     <main class="container">
-      <h1 class="display-4 text-center">Administrar sERIES</h1>
+      <h1 class="display-4 text-center">Administrar Series</h1>
       <hr />
-      <section class="d-flex align-items-center my-3">
+      <section class="d-flex align-items-center">
         <p class="m-0">Opciones:</p>
         <button
           class="btn btn-outline-primary ms-3"
           data-bs-toggle="modal"
           data-bs-target="#modal"
+          id="abrirModal"
         >
           <i class="bi bi-clipboard-check-fill"></i>
         </button>
       </section>
-      <section>
+      <section class="mt-4">
         <h2 class="display-5">Lista de series</h2>
         <hr />
-        <div class="table-responsive">
+        <article class="table-responsive">
           <table class="table">
             <thead>
               <tr>
@@ -73,11 +77,20 @@
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="listaSeries">
               <tr>
-                <td>1</td>
+                <td scope="row">1</td>
                 <td>Bleach</td>
                 <td>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Dolorum corporis atque itaque quis illum veniam molestiae
+                  eligendi impedit molestias amet!
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Dolorum corporis atque itaque quis illum veniam molestiae
+                  eligendi impedit molestias amet!
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Dolorum corporis atque itaque quis illum veniam molestiae
+                  eligendi impedit molestias amet!
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   Dolorum corporis atque itaque quis illum veniam molestiae
                   eligendi impedit molestias amet!
@@ -86,18 +99,18 @@
                   https://campus.rollingcodeschool.com/mod/forum/view.php?id=17742
                 </td>
                 <td>Accion</td>
-                <td>
-                  <button class="btn btn-warning ms-3">
+                <td class="buttons-table tex-center">
+                  <button class="btn btn-warning">
                     <i class="bi bi-pencil-square"></i>
                   </button>
-                  <button class="btn btn-danger">
+                  <button class="btn btn-danger ms-1">
                     <i class="bi bi-x-square"></i>
                   </button>
                 </td>
               </tr>
             </tbody>
           </table>
-        </div>
+        </article>
         <!-- Modal -->
         <div
           class="modal fade"
@@ -120,10 +133,11 @@
               <div class="modal-body">
                 <form id="formSerie">
                   <div class="form-group">
-                    <label for="">Codigo</label>
+                    <label for="codigo">Codigo</label>
                     <input
                       type="text"
-                      class="form-control"
+                      disabled
+                      class="form-control text-muted"
                       id="codigo"
                       placeholder="Codigo"
                     />
@@ -138,19 +152,19 @@
                     />
                   </div>
                   <div class="form-group">
-                    <label for="">Descripcion</label>
+                    <label for="descripcion">Descripcion</label>
                     <textarea
                       name=""
                       id="descripcion"
                       cols="30"
                       rows="10"
-                      maxlength="500"
-                      minlength="20"
+                      maxlength="1000"
+                      minlength="100"
                       class="form-control"
                     ></textarea>
                   </div>
                   <div class="form-group">
-                    <label for="">Imagen</label>
+                    <label for="urlImg">Imagen</label>
                     <input
                       type="text"
                       class="form-control"
@@ -159,7 +173,7 @@
                     />
                   </div>
                   <div class="form-group">
-                    <label for="">Genero</label>
+                    <label for="genero">Genero</label>
                     <select
                       class="form-select"
                       aria-label="Default select example"
@@ -169,10 +183,12 @@
                       <option value="accion">Accion</option>
                       <option value="aventura">Aventura</option>
                       <option value="drama">Drama</option>
-                      <option value="Comedia">Comedia</option>
+                      <option value="comedia">Comedia</option>
                     </select>
                   </div>
-                  <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                  <button type="submit" class="btn btn-primary mt-3">
+                    Guardar
+                  </button>
                 </form>
               </div>
             </div>
@@ -184,9 +200,9 @@
       <p class="m-0 text-center">&copy; Todos los derechos reservados</p>
     </footer>
     <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-    crossorigin="anonymous"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
     ></script>
     <script src="../js/admin.js" type="module"></script>
   </body>
