@@ -3,8 +3,8 @@
 // Variable del article de la tabla
 let articleTable = document.getElementById("articleTabla");
 
-const mostrarOcultarTabla = (arrayLS) => {
-  if (arrayLS.length > 0) {
+const mostrarOcultarTabla = (listaSeries) => {
+  if (listaSeries.length > 0) {
     articleTable.innerHTML = `
         <table class="table">
             <thead>

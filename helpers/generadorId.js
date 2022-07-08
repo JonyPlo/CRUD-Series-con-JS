@@ -3,7 +3,7 @@ const caracteres =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const longitudId = 10;
 let id = "";
-let listaSeries = JSON.parse(localStorage.getItem("Series"));
+let listaSeries = !localStorage ? JSON.parse(localStorage.getItem("Series")) : [];
 
 export const generarId = () => {
   while (codigo.value === "") {

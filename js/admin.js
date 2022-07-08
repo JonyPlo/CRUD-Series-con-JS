@@ -8,13 +8,14 @@ import {
 } from "../helpers/validacionesFormSerie.js";
 import mostrarOcultarTabla from "./mostrarOcultarTablaAdmin.js";
 
-// Variable con el arreglo de objetos del LS
-let listaSeries = JSON.parse(localStorage.getItem("Series"));
+// Variable con el arreglo donde se guardaran los datos del LS
+let listaSeries = [];
 
-// Este if valida, si la key Series no existe en el LS, entonces me genera una nueva key Series con un array vacio
-if (!listaSeries) {
-  localStorage.setItem("Series", JSON.stringify([]));
-  listaSeries = JSON.parse(localStorage.getItem("Series"));
+// Este if valida si el LS tiene datos, los guarda en el array listaSeries, de lo contrario, crea un array vacio detro del LS
+if (localStorage.length > 0) {
+  listaSeries = JSON.parse(localStorage.getItem("Series")); //Si LS tiene datos, los cargo en el arreglo
+} else {
+  localStorage.setItem("Series", JSON.stringify([])); //Si no, creo una key Series con un array vacio dentro del LS
 }
 
 // Funcion para verificar si el LS tiene datos muestra la tabla, de lo contrario muestra un texto
@@ -88,6 +89,7 @@ const guardarSerieLS = () => {
   }).then((result) => {
     if (result.isConfirmed) {
       localStorage.setItem("Series", JSON.stringify(listaSeries));
+      mostrarOcultarTabla(listaSeries);
       borrarFilas(); // Borro las filas
       cargaInicial(); // Vuelvo a dibujar las filas con el arreglo actualizado
       modalAdmin.hide();
@@ -132,8 +134,7 @@ const cargaInicial = () => {
 
 const crearFilas = (serie) => {
   const tbody = document.getElementById("tbodySeries");
-  if (tbody) {
-    tbody.innerHTML += `
+  tbody.innerHTML += `
         <tr>
           <td scope="row">${serie.codigo}</td>
           <td>${serie.titulo}</td>
@@ -156,7 +157,6 @@ const crearFilas = (serie) => {
           </td>
         </tr>
         `;
-  }
 };
 
 cargaInicial();
