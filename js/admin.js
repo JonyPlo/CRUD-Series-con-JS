@@ -71,13 +71,11 @@ const crearSerie = (e) => {
     genero.value
   );
 
-  listaSeries.push(nuevaSerie);
-  guardarSerieLS();
-  LimpiarFormulario(); // Limpiar los inputs
+  guardarSerieLS(nuevaSerie);
 };
 
 // Funcion para confirmar que la serie se guarde en el LS
-const guardarSerieLS = () => {
+const guardarSerieLS = (nuevaSerie) => {
   Swal.fire({
     title: "Seguro que quiere guardar la serie?",
     text: "La serie se guardara!",
@@ -88,11 +86,12 @@ const guardarSerieLS = () => {
     confirmButtonText: "Guardar",
   }).then((result) => {
     if (result.isConfirmed) {
+      listaSeries.push(nuevaSerie);
       localStorage.setItem("Series", JSON.stringify(listaSeries));
-      mostrarOcultarTabla(listaSeries);
-      borrarFilas(); // Borro las filas
+      borrarFilas();
       cargaInicial(); // Vuelvo a dibujar las filas con el arreglo actualizado
       modalAdmin.hide();
+      LimpiarFormulario(); // Limpiar los inputs
       Swal.fire(
         "Serie guardada!",
         "La serie se guardo correctamente.",
@@ -102,22 +101,20 @@ const guardarSerieLS = () => {
   });
 };
 
-// Funcion para borrar las filas de la tabla
-const borrarFilas = () => {
-  const tbody = document.getElementById("tbodySeries");
-  tbody.innerHTML = "";
-};
-
 // Funcion para limpiar los inputs del form
 function LimpiarFormulario() {
-  formulario.reset();
+  formulario.reset(); // .reset() es un metodo de etiquetas form para borrar los valores de los inputs
+  //Solo hay 1 solo select por eso no se hace un for
+  let selects = document.getElementsByClassName("form-select");
+  selects[0].classList.remove("is-valid");
+  selects[0].classList.remove("is-invalid");
+
+  //Quito la clase is-valid, is-invalid de los inputs con un for
   let inputs = document.getElementsByClassName("form-control");
-  //Quito la clase is-valid, is-invalid de los inputs
   for (let i = 1; i < inputs.length; i++) {
     inputs[i].classList.remove("is-valid");
     inputs[i].classList.remove("is-invalid");
   }
-  generarId();
 }
 
 // Agrego el evento submit al form con su funcion para dar de alta la serie
@@ -130,6 +127,12 @@ const cargaInicial = () => {
       crearFilas(serie);
     });
   }
+};
+
+// Esta funcion borra todas las filas que tenga la tabla
+const borrarFilas = () => {
+  let tbody = window.document.getElementById("tbodySeries");
+  tbody.innerHTML = "";
 };
 
 const crearFilas = (serie) => {
@@ -151,7 +154,7 @@ const crearFilas = (serie) => {
             <button class="btn btn-warning">
               <i class="bi bi-pencil-square"></i>
             </button>
-            <button class="btn btn-danger ms-1">
+            <button class="btn btn-danger ms-1" id="${serie.codigo}" name="${serie.titulo}" onclick="eliminarSerie(this)">
               <i class="bi bi-x-square"></i>
             </button>
           </td>
@@ -160,3 +163,31 @@ const crearFilas = (serie) => {
 };
 
 cargaInicial();
+
+// Funcion para eliminar una serie de la tabla
+window.eliminarSerie = (serie) => {
+  Swal.fire({
+    title: `Esta seguro que desea eliminar la serie ${serie.name}?`,
+    text: "Si la elimina no se podra recuperar!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, borrar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let nuevaLista = listaSeries.filter(
+        (itemSerie) => itemSerie.codigo !== serie.id
+      );
+      listaSeries = nuevaLista; //Guardo el arreglo nuevo sin la serie que acabamos de eliminar en el arreglo principal
+      localStorage.setItem("Series", JSON.stringify(listaSeries)); // Guardo el arreglo actualizado en el LS
+      borrarFilas(); // Borro todas las filas de la tabla
+      cargaInicial(); // Vuelvo a dibujar las tablas con el arreglo actualizado
+      Swal.fire(
+        "Serie eliminada!",
+        "La serie se elimino correctamente",
+        "success"
+      );
+    }
+  });
+};
