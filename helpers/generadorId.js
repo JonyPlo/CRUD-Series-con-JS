@@ -4,7 +4,7 @@ const caracteres =
 const longitudId = 10;
 let id = "";
 
-export const generarId = () => {
+export const generarId = (codigo) => {
   let listaSeries = JSON.parse(localStorage.getItem("Series"));
 
   while (codigo.value === "") {
@@ -20,7 +20,7 @@ export const generarId = () => {
       let buscarCodigoRepetido = listaSeries.find((serie) => {
         return serie.codigo === id;
       });
-      if (buscarCodigoRepetido === undefined) {
+      if (!buscarCodigoRepetido) {
         codigo.value = id;
       }
     }
