@@ -1,11 +1,12 @@
 main {
-  min-height: calc(100vh - 56px - 120px);
+  min-height: calc(100vh - 104px - 120px);
 }
 
 .buttons-table {
   width: 110px;
 }
 
+/* Truncate para descripcion de la tabla */
 .td-descripcion {
   overflow: hidden;
   width: 300px; /*cambiando esto elegimos el ancho del texto */
@@ -13,4 +14,13 @@ main {
   display: -webkit-box;
   text-overflow: ellipsis;
   -webkit-line-clamp: 1; /*cambiando este numero elegimos la cantidad de filas que queremos que muestre el texto*/
+}
+
+/* Truncate para descripcion de la las cards */
+.card-descripcion {
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3; /*cambiando este numero elegimos la cantidad de filas que queremos que muestre el texto*/
 }
