@@ -14,16 +14,18 @@ mostrarOcultarCards(listaSeries); // Funcion para verificar si el LS tiene datos
 
 // En esta funcion traigo el div que contendra todas las cards y le agrego el html restante para crear una card con los datos de la serie
 const crearCards = (serie) => {
-  console.log(serie);
   const contenedorCards = document.getElementById("contenedorCards");
   contenedorCards.innerHTML += `
  <div class="col">
-  <div class="card">
+  <div class="card shadow">
+  <div class="overflow-hidden">
     <img
       src="${serie.urlImg}"
-      class="card-img"
+      class="card-img-index"
       alt="${serie.titulo}"
+      onclick="redireccionarPaginaDetalle('${serie.codigo}')"
     />
+    </div>
     <div class="card-body px-3 pb-0">
       <h5 class="card-title">${serie.titulo}</h5>
       <p class="card-text card-descripcion">
@@ -41,10 +43,14 @@ const crearCards = (serie) => {
 // Con esta funcione recorro el arreglo de listaSeries y segun la longitud que tenga son las veces que se ejecutara la funcion crearFilas para agregar las filas a la tabla con los datos almacenados en el LS
 const cargaInicialIndex = (listaSeriesParam) => {
   if (listaSeriesParam.length > 0) {
-    console.log(listaSeriesParam.length);
     listaSeriesParam.forEach((serie) => crearCards(serie));
   }
 };
 
 //Ejeculo la carga inicial para que se listen las series almacenadas en el LS a las cards
 cargaInicialIndex(listaSeries);
+
+// Con esta funcion redirecciono a la pagina detalleSerie.html con el codigo de la serie como parametro en la url
+window.redireccionarPaginaDetalle = (codigo) => {
+  window.location.href = `detalleSerie.html?codigo=${codigo}`;
+};

@@ -26,22 +26,28 @@ main {
 }
 
 /* Le agrego clases personalizadas a las imagenes de las cards */
-.card-img{
-height: 30rem;
-object-fit: cover;
-object-position: center;
+.card-img-index {
+  height: 30rem;
+  object-fit: cover;
+  object-position: center;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+
+.card-img-index:hover {
+  transform: scale(1.1);
 }
 
 /* Le agrego clases personalizadas a la portada de la pagina de detalle */
-.portada-img{
-height: 30rem;
-object-fit: cover;
-object-position: center;
-width: 100%;
+.portada-img {
+  height: 30rem;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
 }
 
 /* Clases para dar tamaño a la imagen de la card de detalles */
-.img-card-detalle{
+.img-card-detalle {
   height: 40rem;
   object-fit: cover;
   object-position: center;
