@@ -94,21 +94,6 @@ genero.addEventListener("change", () => validarGenero(genero));
 
 // Creamos la funcion para dar de alta una Serie
 const crearSerie = () => {
-  // Volver a validar campos antes de enviarlos
-  if (
-    !validarTitulo(titulo) ||
-    !validarDescripcion(descripcion) ||
-    !validarUrl(urlImg) ||
-    !validarGenero(genero)
-  ) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Alguna validacion no es correcta!",
-    });
-    return;
-  }
-
   // Si paso las validaciones de los inputs, ejectuto el alert de confirmacion para crear la serie
   Swal.fire({
     title: `Seguro que quiere crear la serie ${titulo.value}?`,
@@ -130,7 +115,7 @@ const crearSerie = () => {
         genero.value
       );
       listaSeries.push(nuevaSerie); // Agrego el objeto al arreglo de series
-      localStorage.setItem("Series", JSON.stringify(listaSeries)); // Guardo el arreglo con el nuevo objeto en el LS
+      guardarListaSerie(listaSeries); // Guardo el arreglo con el nuevo objeto en el LS
       mostrarOcultarTabla(listaSeries); // Esta funcion tambien borra todas las filas que tenga la tabla
       cargaInicial(); // Vuelvo a dibujar las filas con el arreglo actualizado
       modalAdmin.hide();
@@ -138,6 +123,11 @@ const crearSerie = () => {
       Swal.fire("Serie creada!", "La serie se creó correctamente.", "success");
     }
   });
+};
+
+// Esta fucnion sirve para llamarla cada vez que quiera guardar un arreglo nuevo en el LS
+const guardarListaSerie = (serie) => {
+  localStorage.setItem("Series", JSON.stringify(serie));
 };
 
 // Funcion para limpiar los inputs del form
@@ -159,7 +149,20 @@ const limpiarFormulario = () => {
 // Funcion que se encarga de crear o modifocar una serie
 const guardarSerieLS = (e) => {
   e.preventDefault();
-  if (bandera) {
+  // Volver a validar campos antes de guardarlos en el LS
+  if (
+    !validarTitulo(titulo) ||
+    !validarDescripcion(descripcion) ||
+    !validarUrl(urlImg) ||
+    !validarGenero(genero)
+  ) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Alguna validacion no es correcta!",
+    });
+    return;
+  } else if (bandera) {
     modificarSerie();
   } else {
     crearSerie();
@@ -168,8 +171,6 @@ const guardarSerieLS = (e) => {
 
 // Agrego el evento submit al form con su funcion para dar de alta la serie
 formulario.addEventListener("submit", guardarSerieLS);
-
-
 
 // Funcion para eliminar una serie de la tabla
 window.eliminarSerie = (codigo, titulo) => {
@@ -188,7 +189,7 @@ window.eliminarSerie = (codigo, titulo) => {
         (itemSerie) => itemSerie.codigo !== codigo
       );
       listaSeries = nuevaLista; //Guardo el arreglo nuevo sin la serie que acabamos de eliminar en el arreglo principal
-      localStorage.setItem("Series", JSON.stringify(listaSeries)); // Guardo el arreglo actualizado en el LS
+      guardarListaSerie(listaSeries); // Guardo el arreglo actualizado en el LS
       mostrarOcultarTabla(listaSeries); // Esta funcion tambien borra todas las filas que tenga la tabla
       cargaInicial(); // Vuelvo a dibujar las tablas con el arreglo actualizado
       Swal.fire(
@@ -204,20 +205,20 @@ window.eliminarSerie = (codigo, titulo) => {
 window.btnModalModificar = (codigoParam) => {
   btnSubmit.innerHTML = "Modificar"; // Cambio el nombre del btn submit
   let serie = listaSeries.find((itemSerie) => itemSerie.codigo === codigoParam); // Busco la serie a modificar en el arreglo de series con el codigo que traigo por parametro
-  
+
   // Una vez encontrada la serie a modificar guardo los valores de sus propiedades en los inputs del form
   codigo.value = serie.codigo;
   titulo.value = serie.titulo;
   descripcion.value = serie.descripcion;
   urlImg.value = serie.urlImg;
   genero.value = serie.genero;
-  
+
   // Valido que los campos que se guardaron en los inputs estan bien
   validarTitulo(titulo);
   validarDescripcion(descripcion);
   validarUrl(urlImg);
   validarGenero(genero);
-  
+
   modalAdmin.show(); // Muestro el modal
   bandera = true; // Cambiar esta bandera a true indica que estoy en modificar
 };
@@ -263,16 +264,16 @@ const modificarSerie = () => {
         (serie) => serie.codigo === codigo.value
       ); // Busco el indice de la serie a modificar en el arreglo de series
       listaSeries.splice(indiceSerie, 1, serieModificada); // Con este splice busco la serie que quiero eliminar a travez de su indice que encontramos anteriormente, luego la elimino y por ultimo introduzco la serie modificada en ese mismo indice
-      localStorage.setItem("Series", JSON.stringify(listaSeries)); // Guardo el arreglo actualizado en el LS
+      guardarListaSerie(listaSeries); // Guardo el arreglo actualizado en el LS
       mostrarOcultarTabla(listaSeries); // Esta funcion tambien borra todas las filas que tenga la tabla
       cargaInicial(); // Vuelvo a dibujar las filas con el arreglo actualizado
-      modalAdmin.hide(); // Oculto el modal
       limpiarFormulario(); // Limpiar los inputs
       Swal.fire(
         "Serie modificada!",
         "La serie se modifico correctamente.",
         "success"
       );
+      modalAdmin.hide(); // Oculto el modal
     }
   });
 };

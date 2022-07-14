@@ -11,7 +11,7 @@ const url = new URLSearchParams(window.location.search);
 // Traigo todas las series almacenadas en el localStorage
 let listaSeries = JSON.parse(localStorage.getItem("Series"));
 
-//Busco la serie con el codigo que viene en la url
+//Busco en el arreglo de series la serie con el mismo codigo que el que me llega por parametro desde la url, en este caso para traer el parametro 'codigo' lo traigo de esta forma url.get("codigo")
 let serie = listaSeries.find((serie) => serie.codigo === url.get("codigo"));
 
 //Traigo el conetedor de la portada y le introduzco la imagen de la serie
