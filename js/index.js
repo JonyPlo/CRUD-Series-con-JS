@@ -29,11 +29,9 @@ const crearCards = (serie) => {
       <p class="card-text card-descripcion">
         ${serie.descripcion}
       </p>
-      <div class="">
         <div class="card-footer px-0 py-3">
           <span class="badge rounded-pill text-bg-primary text-capitalize">${serie.genero}</span>
         </div>
-      </div>
     </div>
   </div>
 </div>

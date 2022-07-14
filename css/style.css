@@ -25,9 +25,25 @@ main {
   -webkit-line-clamp: 3; /*cambiando este numero elegimos la cantidad de filas que queremos que muestre el texto*/
 }
 
-/* Manipulo las clases de las imagenes de las cards */
+/* Le agrego clases personalizadas a las imagenes de las cards */
 .card-img{
 height: 30rem;
 object-fit: cover;
 object-position: center;
+}
+
+/* Le agrego clases personalizadas a la portada de la pagina de detalle */
+.portada-img{
+height: 30rem;
+object-fit: cover;
+object-position: center;
+width: 100%;
+}
+
+/* Clases para dar tamaño a la imagen de la card de detalles */
+.img-card-detalle{
+  height: 40rem;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
 }
