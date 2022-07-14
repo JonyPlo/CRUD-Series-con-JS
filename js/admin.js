@@ -18,9 +18,6 @@ if (localStorage.length > 0) {
   localStorage.setItem("Series", JSON.stringify([])); //Si no, creo una key Series con un array vacio dentro del LS
 }
 
-// Funcion para verificar si el LS tiene datos muestra la tabla, de lo contrario muestra un texto
-mostrarOcultarTabla(listaSeries);
-
 // Variables de los inputs del form de serie
 let codigo = document.getElementById("codigo");
 let titulo = document.getElementById("titulo");
@@ -37,13 +34,56 @@ let bandera = false; // false = crear, true = modificar
 //Variable del btn submit del modal
 const btnSubmit = document.getElementById("btnSubmit");
 
+// Funcion para verificar si el LS tiene datos muestra la tabla, de lo contrario muestra un texto informando que no hay elementos para mostrar
+mostrarOcultarTabla(listaSeries);
+
+// En esta funcion traigo el body de la tabla y le agrego el html restante para crear la fila con los datos de la serie
+const crearFilas = (serie) => {
+  const tbody = document.getElementById("tbodySeries");
+  tbody.innerHTML += `
+        <tr>
+          <td scope="row">${serie.codigo}</td>
+          <td>${serie.titulo}</td>
+          <td>
+            <div class="td-descripcion">
+              ${serie.descripcion}
+            </div>
+          </td>
+          <td>
+            ${serie.urlImg}
+          </td>
+          <td class='text-capitalize'>${serie.genero}</td>
+          <td class="buttons-table tex-center">
+            <button class="btn btn-warning" onclick="btnModalModificar('${serie.codigo}')">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="btn btn-danger ms-1" onclick="eliminarSerie('${serie.codigo}', '${serie.titulo}')">
+              <i class="bi bi-x-square"></i>
+            </button>
+          </td>
+        </tr>
+        `;
+};
+
+// Con estas funciones recorro el arreglo de listaSeries y segun la longitud que tenga son las veces que se ejecutara la funcion crearFilas para agregar las filas a la tabla con los datos almacenados en el LS
+const cargaInicial = () => {
+  if (listaSeries.length > 0) {
+    listaSeries.forEach((serie) => {
+      crearFilas(serie);
+    });
+  }
+};
+
+//Ejeculo la carga inicial para que se listen las series almacenadas en el LS en la tabla
+cargaInicial();
+
 // Funcion para abrir el modal
 btnModalCrear.addEventListener("click", () => {
-  bandera = false; //Bandera para cambiar el nombre del btn submit
   btnSubmit.innerHTML = "Crear"; //Cambio el nombre del btn submit
   limpiarFormulario();
   generarId(codigo); // Funcion para crear el codigo
   modalAdmin.show(); // Muestro el modal
+  bandera = false; //Bandera para cambiar el nombre del btn submit
 });
 
 // Validaciones en tiempo real
@@ -129,43 +169,7 @@ const guardarSerieLS = (e) => {
 // Agrego el evento submit al form con su funcion para dar de alta la serie
 formulario.addEventListener("submit", guardarSerieLS);
 
-// Con estas funciones agrego las filas a la tabla con los datos almacenados en el LS
-const cargaInicial = () => {
-  if (listaSeries.length > 0) {
-    listaSeries.forEach((serie) => {
-      crearFilas(serie);
-    });
-  }
-};
 
-const crearFilas = (serie) => {
-  const tbody = document.getElementById("tbodySeries");
-  tbody.innerHTML += `
-        <tr>
-          <td scope="row">${serie.codigo}</td>
-          <td>${serie.titulo}</td>
-          <td>
-            <div class="td-descripcion">
-              ${serie.descripcion}
-            </div>
-          </td>
-          <td>
-            ${serie.urlImg}
-          </td>
-          <td class='text-capitalize'>${serie.genero}</td>
-          <td class="buttons-table tex-center">
-            <button class="btn btn-warning" onclick="btnModalModificar('${serie.codigo}')">
-              <i class="bi bi-pencil-square"></i>
-            </button>
-            <button class="btn btn-danger ms-1" onclick="eliminarSerie('${serie.codigo}', '${serie.titulo}')">
-              <i class="bi bi-x-square"></i>
-            </button>
-          </td>
-        </tr>
-        `;
-};
-
-cargaInicial();
 
 // Funcion para eliminar una serie de la tabla
 window.eliminarSerie = (codigo, titulo) => {
@@ -198,24 +202,24 @@ window.eliminarSerie = (codigo, titulo) => {
 
 // Funcion para perparar la serie a modificar en el form
 window.btnModalModificar = (codigoParam) => {
-  bandera = true; // Cambiar esta bandera a true indica que estoy en modificar
   btnSubmit.innerHTML = "Modificar"; // Cambio el nombre del btn submit
   let serie = listaSeries.find((itemSerie) => itemSerie.codigo === codigoParam); // Busco la serie a modificar en el arreglo de series con el codigo que traigo por parametro
-
+  
   // Una vez encontrada la serie a modificar guardo los valores de sus propiedades en los inputs del form
   codigo.value = serie.codigo;
   titulo.value = serie.titulo;
   descripcion.value = serie.descripcion;
   urlImg.value = serie.urlImg;
   genero.value = serie.genero;
-
+  
   // Valido que los campos que se guardaron en los inputs estan bien
   validarTitulo(titulo);
   validarDescripcion(descripcion);
   validarUrl(urlImg);
   validarGenero(genero);
-
+  
   modalAdmin.show(); // Muestro el modal
+  bandera = true; // Cambiar esta bandera a true indica que estoy en modificar
 };
 
 //Funcion para guardar la serie en el LS

@@ -24,3 +24,10 @@ main {
   text-overflow: ellipsis;
   -webkit-line-clamp: 3; /*cambiando este numero elegimos la cantidad de filas que queremos que muestre el texto*/
 }
+
+/* Manipulo las clases de las imagenes de las cards */
+.card-img{
+height: 30rem;
+object-fit: cover;
+object-position: center;
+}

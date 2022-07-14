@@ -1,7 +1,7 @@
 // Valido los campos del formulario
 
 export const validarTitulo = (e) => {
-  let regExpTitulo = /^[\w\.\s?]{5,20}$/;
+  let regExpTitulo = /^[\w\.\s?]{5,50}$/;
   if (regExpTitulo.test(e.value)) {
     e.className = "form-control is-valid";
     return true;
