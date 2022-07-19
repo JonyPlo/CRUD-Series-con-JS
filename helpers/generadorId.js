@@ -16,7 +16,7 @@ export const generarId = (codigo) => {
     if (listaSeries.length === 0) {
       codigo.value = id;
     } else {
-      // En este find busco el codigo repetido en los objetos, si el id generado coincide con el codigo de alguna serie, la variable buscarCodigoRepetido sera igual al codigo de la serie encontrada, pero si el id no coincide con el codigo de ninguna serie, entonces el id generado no esta repetido! por lo tanto buscarCodigoRepetido sera igual a undefined
+      // En este find busco el codigo repetido en los objetos, si el id generado coincide con el codigo de alguna serie, la variable buscarCodigoRepetido sera igual al codigo de la serie encontrada, pero si el id no coincide con el codigo de ninguna serie, entonces el id generado no esta repetido! por lo tanto buscarCodigoRepetido sera igual a undefine
       let buscarCodigoRepetido = listaSeries.find(
         (serie) => serie.codigo === id
       );
