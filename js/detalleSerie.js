@@ -9,7 +9,7 @@ const url = new URLSearchParams(window.location.search);
 // console.log(url.get("codigo"));
 
 // Traigo todas las series almacenadas en el localStorage
-let listaSeries = JSON.parse(localStorage.getItem("Series"));
+let listaSeries = JSON.parse(localStorage.getItem("Series")) || [];
 
 //Busco en el arreglo de series la serie con el mismo codigo que el que me llega por parametro desde la url, en este caso para traer el parametro 'codigo' lo traigo de esta forma url.get("codigo")
 let serie = listaSeries.find((serie) => serie.codigo === url.get("codigo"));
@@ -25,6 +25,9 @@ const listarPortada = (portadaParam) => {
         />
     `;
 };
+
+const asd = document.querySelector("[name]");
+console.log(asd);
 
 listarPortada(serie);
 

@@ -9,14 +9,10 @@ import {
 import mostrarOcultarTabla from "./mostrarOcultarTablaAdmin.js";
 
 // Variable con el arreglo donde se guardaran los datos del LS
-let listaSeries = [];
-
-// Este if valida si el LS tiene datos, los guarda en el array listaSeries, de lo contrario, crea un array vacio detro del LS
-if (localStorage.length > 0) {
-  listaSeries = JSON.parse(localStorage.getItem("Series")); //Si LS tiene datos, los cargo en el arreglo
-} else {
-  localStorage.setItem("Series", JSON.stringify([])); //Si no, creo una key Series con un array vacio dentro del LS
-}
+let listaSeries =
+  localStorage.length > 0
+    ? JSON.parse(localStorage.getItem("Series"))
+    : localStorage.setItem("Series", JSON.stringify([]));
 
 // Variables de los inputs del form de serie
 let codigo = document.getElementById("codigo");
@@ -80,7 +76,7 @@ cargaInicial();
 // Funcion para abrir el modal
 btnModalCrear.addEventListener("click", () => {
   btnSubmit.innerHTML = "Crear"; //Cambio el nombre del btn submit
-  limpiarFormulario();
+  limpiarFormulario(); // Limpio los inputs del form
   generarId(codigo); // Funcion para crear el codigo
   modalAdmin.show(); // Muestro el modal
   bandera = false; //Bandera para cambiar el nombre del btn submit
