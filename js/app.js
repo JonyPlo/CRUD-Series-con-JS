@@ -1,20 +1,18 @@
 import mostrarOcultarCards from "./mostrarOcultarCardsIndex.js";
 
-//Traigo las series almacenadas en el localStorage
-let listaSeries = [];
+const buscar = document.getElementById("buscar");
 
-// Este if valida si el LS tiene datos, los guarda en el array listaSeries, de lo contrario, crea un array vacio detro del LS
-if (localStorage.length > 0) {
-  listaSeries = JSON.parse(localStorage.getItem("Series")); //Si LS tiene datos, los cargo en el arreglo
-} else {
-  localStorage.setItem("Series", JSON.stringify([])); //Si no, creo una key Series con un array vacio dentro del LS
-}
+//Traigo las series almacenadas en el localStorage
+let listaSeries =
+  localStorage.length > 0
+    ? JSON.parse(localStorage.getItem("Series"))
+    : localStorage.setItem("Series", JSON.stringify([]));
 
 mostrarOcultarCards(listaSeries); // Funcion para verificar si el LS tiene datos muestra la tabla, de lo contrario muestra un texto informando que no hay elementos para mostrar
 
 // En esta funcion traigo el div que contendra todas las cards y le agrego el html restante para crear una card con los datos de la serie
 const crearCards = (serie) => {
-  const contenedorCards = document.getElementById("contenedorCards");
+  const contenedorCards = document.getElementById("contenedorCards"); //Este contenedor se crea con la funcion mostrarOcultarCards()
   contenedorCards.innerHTML += `
  <div class="col">
   <div class="card shadow">
@@ -47,12 +45,31 @@ const cargaInicialIndex = (listaSeriesParam) => {
   }
 };
 
-// Ejeculo la carga inicial para que se listen las series almacenadas en el LS a las cards
+// Ejecuto la carga inicial para que se listen las series almacenadas en el LS a las cards
 cargaInicialIndex(listaSeries);
 
 // Con esta funcion redirecciono a la pagina detalleSerie.html con el codigo de la serie como parametro en la url
 window.redireccionarPaginaDetalle = (codigo) => {
-  // Con window.location.href redirecciono a la otra pagina porque al asignarle una url es como estar introduciendo el link directamente en el navegador, por otro lado window.location.origin me devuelve el domio actual de mi pagina y luego le concateno la direccion de la pagina, esto hace que el link sea dinamico y el dominio cambie segun donde este hosteada la pagina
-  window.location.href =
-    `${window.location.origin}/pages/detalleSerie.html?codigo=${codigo}`;
+  // Con window.location.href redirecciono a la otra pagina porque al asignarle una url es como estar introduciendo el link directamente en el navegador, por otro lado window.location.origin me devuelve el dominio actual de mi pagina y luego le concateno la direccion de la pagina, esto hace que el link sea dinamico y el dominio cambie segun donde este hosteada la pagina
+  window.location.href = `${window.location.origin}/pages/detalleSerie.html?codigo=${codigo}`;
 };
+
+// Funcion para filtrar las series por titulo a genero mediante un buscador
+const filtrarSeries = (buscarParam) => {
+  // Extraigo el valor de lo que escribo en el input
+  let palabraClave = buscarParam.value.toLowerCase();
+  // Filtro el arreglo de listaSeries
+  let nuevoFiltro = listaSeries.filter((serie) => {
+    const { titulo, genero } = serie;
+    let tituloSerie = titulo.toLowerCase();
+    let generoSerie = genero.toLowerCase();
+    return (
+      tituloSerie.indexOf(palabraClave) > -1 ||
+      generoSerie.indexOf(palabraClave) > -1
+      );
+    });
+  mostrarOcultarCards(nuevoFiltro);
+  cargaInicialIndex(nuevoFiltro);
+};
+
+buscar.addEventListener("keyup",() => filtrarSeries(buscar));

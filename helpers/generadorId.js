@@ -1,28 +1,25 @@
 // Funcion para generar el id de la Serie
 const caracteres =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const longitudId = 10;
-let id = "";
+const longitudId = 10; // Esta variable indica la longitud que tendra el codigo generado
+let id = ""; // En esta variable se almacena el codigo generado
 
 export const generarId = (codigo) => {
-  let listaSeries = JSON.parse(localStorage.getItem("Series"));
-
+  let listaSeries = JSON.parse(localStorage.getItem("Series")); //Traigo las series almacenadas en el localStorage
+  // Este while se ejecuta solo si el input codigo no almacena ningún valor
   while (codigo.value === "") {
-    // En este while genero el numero alfanumerico y lo guardo en la variable id
-    while (id.length < longitudId) {
-      id += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
-    }
-    if (listaSeries.length === 0) {
-      codigo.value = id;
-    } else {
-      // En este find busco el codigo repetido en los objetos, si id generado coincide con el codigo de una serie, la variable buscarCodigoRepetido sera igual al codigo de la serie encontrada, pero si el id no coincide con el codigo de ninguna serie, entonces el id generado esta bien! por lo tanto buscarCodigoRepetido sera igual a undefined
+    // Este while da las vueltas según el valor que tenga la variable longitudId para generar el codigo con esa cantidad de caracteres
+    while (id.length < longitudId)
+      id += caracteres.charAt(Math.floor(Math.random() * caracteres.length)); // Cada numero o letra generada la concateno en la variable id
+    // En este if pregunto si el arreglo de listaSeries esta vació, si no hay items, no busco ningún id repetido e introduzco el id generado en el input codigo, de lo contrario, ejecuto lo que esta en el else
+    if (listaSeries.length === 0) codigo.value = id;
+    else {
+      // En este find busco el codigo repetido en los objetos, si el id generado coincide con el codigo de alguna serie, la variable buscarCodigoRepetido sera igual al codigo de la serie encontrada, pero si el id no coincide con el codigo de ninguna serie, entonces el id generado no esta repetido! por lo tanto buscarCodigoRepetido sera igual a undefined
       let buscarCodigoRepetido = listaSeries.find(
         (serie) => serie.codigo === id
       );
-      if (!buscarCodigoRepetido) {
-        codigo.value = id;
-      }
+      if (!buscarCodigoRepetido) codigo.value = id; // Si buscarCodigoRepetido es undefined, guardo el id generado en el input codigo
     }
-    id = "";
+    id = ""; //Reseteo la variable id
   }
 };

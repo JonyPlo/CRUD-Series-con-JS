@@ -1,20 +1,26 @@
 // Traigo la url de la pagina detalleSerie.html con el parametro y la guardo en una variable
 
 // Forma de extraer parametros de la url con el objeto URL
-// const url = new URL(window.location.href);
-// console.log(url.searchParams.get("codigo"));
-
+//<------- Forma 1 con el objeto URL ------->
+// const param = window.location.href;
+// const url = new URL(param);
+// console.log(url.searchParams.get("codigo")); //De esta forma se toma el parametro
+//<------- Forma 3 con el objeto URL ------->
+// let url = (new URL(window.location)).searchParams;
+// console.log(url.get("codigo")); //De esta forma se toma el parametro
+// ---------------------------------------------------------------------
 // Forma de extraer parametros de la url con el objeto URLSearchParams
-const url = new URLSearchParams(window.location.search);
-// console.log(url.get("codigo"));
+const param = window.location.search;
+const url = new URLSearchParams(param);
+// console.log(url.get("codigo")); //De esta forma se toma el parametro
 
 // Traigo todas las series almacenadas en el localStorage
-let listaSeries = JSON.parse(localStorage.getItem("Series"));
+let listaSeries = JSON.parse(localStorage.getItem("Series")) || [];
 
 //Busco en el arreglo de series la serie con el mismo codigo que el que me llega por parametro desde la url, en este caso para traer el parametro 'codigo' lo traigo de esta forma url.get("codigo")
 let serie = listaSeries.find((serie) => serie.codigo === url.get("codigo"));
 
-//Traigo el conetedor de la portada y le introduzco la imagen de la serie
+//Traigo el contenedor de la portada y le introduzco la imagen de la serie
 const listarPortada = (portadaParam) => {
   const portada = document.getElementById("portada");
   portada.innerHTML = `
