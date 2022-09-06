@@ -70,7 +70,7 @@ const cargaInicial = () => {
   }
 };
 
-//Ejeculo la carga inicial para que se listen las series almacenadas en el LS en la tabla
+// Ejecuto la carga inicial para que se listen las series almacenadas en el LS en la tabla
 cargaInicial();
 
 // Funcion para abrir el modal
@@ -79,7 +79,7 @@ btnModalCrear.addEventListener("click", () => {
   limpiarFormulario(); // Limpio los inputs del form
   generarId(codigo); // Funcion para crear el codigo
   modalAdmin.show(); // Muestro el modal
-  bandera = false; //Bandera para cambiar el nombre del btn submit
+  bandera = false;
 });
 
 // Validaciones en tiempo real
@@ -90,7 +90,7 @@ genero.addEventListener("change", () => validarGenero(genero));
 
 // Creamos la funcion para dar de alta una Serie
 const crearSerie = () => {
-  // Si paso las validaciones de los inputs, ejectuto el alert de confirmacion para crear la serie
+  // Si paso las validaciones de los inputs, ejecuto el alert de confirmacion para crear la serie
   Swal.fire({
     title: `Seguro que quiere crear la serie ${titulo.value}?`,
     text: "La serie se creara!",
@@ -110,8 +110,8 @@ const crearSerie = () => {
         urlImg.value,
         genero.value
       );
-      listaSeries.push(nuevaSerie); // Agrego el objeto al arreglo de series
-      guardarListaSerie(listaSeries); // Guardo el arreglo con el nuevo objeto en el LS
+      listaSeries = [...listaSeries, nuevaSerie]; // Agrego el objeto al arreglo de series
+      guardarListaSerie(); // Guardo el arreglo con el nuevo objeto en el LS
       mostrarOcultarTabla(listaSeries); // Esta funcion tambien borra todas las filas que tenga la tabla
       cargaInicial(); // Vuelvo a dibujar las filas con el arreglo actualizado
       modalAdmin.hide();
@@ -121,9 +121,11 @@ const crearSerie = () => {
   });
 };
 
-// Esta fucnion sirve para llamarla cada vez que quiera guardar un arreglo nuevo en el LS
-const guardarListaSerie = (serie) => {
-  localStorage.setItem("Series", JSON.stringify(serie));
+// Funcion para llamarla cada vez que quiera guardar un arreglo nuevo en el LS
+const guardarListaSerie = () => {
+  if (listaSeries.length > 0) {
+    localStorage.setItem("Series", JSON.stringify(listaSeries));
+  }
 };
 
 // Funcion para limpiar los inputs del form
@@ -131,18 +133,15 @@ const limpiarFormulario = () => {
   formulario.reset(); // .reset() es un metodo de etiquetas form para borrar los valores de los inputs
   //Solo hay 1 solo select por eso no se hace un for
   let selects = document.getElementsByClassName("form-select");
-  selects[0].classList.remove("is-valid");
-  selects[0].classList.remove("is-invalid");
-
+  selects[0].classList.remove("is-valid", "is-invalid");
   //Quito la clase is-valid, is-invalid de los inputs con un for
   let inputs = document.getElementsByClassName("form-control");
   for (let i = 1; i < inputs.length; i++) {
-    inputs[i].classList.remove("is-valid");
-    inputs[i].classList.remove("is-invalid");
+    inputs[i].classList.remove("is-valid", "is-invalid");
   }
 };
 
-// Funcion que se encarga de crear o modifocar una serie
+// Funcion que se encarga de crear o modificar una serie
 const guardarSerieLS = (e) => {
   e.preventDefault();
   // Volver a validar campos antes de guardarlos en el LS
@@ -197,7 +196,7 @@ window.eliminarSerie = (codigo, titulo) => {
   });
 };
 
-// Funcion para perparar la serie a modificar en el form
+// Funcion para preparar la serie a modificar en el form
 window.btnModalModificar = (codigoParam) => {
   btnSubmit.innerHTML = "Modificar"; // Cambio el nombre del btn submit
   let serie = listaSeries.find((itemSerie) => itemSerie.codigo === codigoParam); // Busco la serie a modificar en el arreglo de series con el codigo que traigo por parametro
@@ -236,7 +235,7 @@ const modificarSerie = () => {
     return;
   }
 
-  // Si paso las validaciones de los inputs, ejectuto el alert de confirmacion para modificar la serie
+  // Si paso las validaciones de los inputs, ejecuto el alert de confirmacion para modificar la serie
   Swal.fire({
     title: `Seguro que quiere modificar la serie ${titulo.value}?`,
     text: "La serie se modificara!",
@@ -256,11 +255,12 @@ const modificarSerie = () => {
         urlImg: urlImg.value,
         genero: genero.value,
       };
+      // Busco el indice de la serie a modificar en el arreglo de series
       let indiceSerie = listaSeries.findIndex(
         (serie) => serie.codigo === codigo.value
-      ); // Busco el indice de la serie a modificar en el arreglo de series
-      listaSeries.splice(indiceSerie, 1, serieModificada); // Con este splice busco la serie que quiero eliminar a travez de su indice que encontramos anteriormente, luego la elimino y por ultimo introduzco la serie modificada en ese mismo indice
-      guardarListaSerie(listaSeries); // Guardo el arreglo actualizado en el LS
+      );
+      listaSeries.splice(indiceSerie, 1, serieModificada); // Con este splice busco la serie que quiero eliminar a traves de su indice que encontramos anteriormente, luego la elimino y por ultimo introduzco la serie modificada en ese mismo indice
+      guardarListaSerie(); // Guardo el arreglo actualizado en el LS
       mostrarOcultarTabla(listaSeries); // Esta funcion tambien borra todas las filas que tenga la tabla
       cargaInicial(); // Vuelvo a dibujar las filas con el arreglo actualizado
       limpiarFormulario(); // Limpiar los inputs
