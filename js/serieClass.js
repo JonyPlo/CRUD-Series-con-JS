@@ -5,6 +5,7 @@ export class Serie {
     this.descripcion = descripcion;
     this.urlImg = urlImg;
     this.genero = genero;
+    this.destacado = false;
   }
   // Agregar metodos necesarios
 
@@ -28,6 +29,10 @@ export class Serie {
     return this.genero;
   }
 
+  get getDestacado() {
+    return this.destacado;
+  }
+
   set setCodigo(codigo) {
     this.codigo = codigo;
   }
@@ -46,5 +51,9 @@ export class Serie {
 
   set setGenero(genero) {
     this.genero = genero;
+  }
+
+  set setDestacado(destacado) {
+    this.destacado = destacado;
   }
 }

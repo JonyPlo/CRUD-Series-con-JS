@@ -5,7 +5,7 @@ const longitudId = 10; // Esta variable indica la longitud que tendra el codigo 
 let id = ""; // En esta variable se almacena el codigo generado
 
 export const generarId = (codigo) => {
-  let listaSeries = JSON.parse(localStorage.getItem("Series")); //Traigo las series almacenadas en el localStorage
+  let listaSeries = JSON.parse(localStorage.getItem("Series")) || [] //Traigo las series almacenadas en el localStorage
   // Este while se ejecuta solo si el input codigo no almacena ningún valor
   while (codigo.value === "") {
     // Este while da las vueltas según el valor que tenga la variable longitudId para generar el codigo con esa cantidad de caracteres

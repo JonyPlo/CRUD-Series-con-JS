@@ -1,113 +1,185 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CRUD Series</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"
-    defer></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD Series</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+      defer
+    ></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../js/admin.js" type="module"></script>
-  <meta name="description" content="Pagina para ejercicios" />
-  <meta name="author" content="Jony" />
-  <meta name="keywords" content="ejercicios, javascript" />
-</head>
+    <script src="../js/admin.js" type="module" defer></script>
+    <meta name="description" content="Pagina para ejercicios" />
+    <meta name="author" content="Jony" />
+    <meta name="keywords" content="ejercicios, javascript" />
+  </head>
 
-<body>
-  <header>
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" href="../index.html">Crunchy</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="../index.html">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="admin.html">Admin</a>
-            </li>
-          </ul>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Crunchy</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../index.html"
+                  >Inicio</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="admin.html"
+                  >Admin</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
-  </header>
-  <main class="container my-4">
-    <h1 class="display-4 text-center">Administrar Series</h1>
-    <hr />
-    <section class="d-flex align-items-center">
-      <p class="m-0">Opciones:</p>
-      <!-- Button Modal -->
-      <button class="btn btn-outline-primary ms-3" id="btnModal">
-        <i class="bi bi-clipboard-check-fill"></i>
-      </button>
-    </section>
-    <section class="mt-4">
-      <h2 class="display-5">Lista de series</h2>
+      </nav>
+    </header>
+    <main class="container my-4">
+      <h1 class="display-4 text-center">Administrar Series</h1>
       <hr />
-      <!-- Contenedor de la tabla -->
-      <article class="table-responsive" id="articleTabla"></article>
-      <!-- Modal -->
-      <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-        data-bs-backdrop="static">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Modal Series</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form id="formSerie">
-                <div class="form-group">
-                  <label for="codigo">Codigo</label>
-                  <input type="text" disabled class="form-control text-muted" id="codigo" placeholder="Codigo" />
-                </div>
-                <div class="form-group">
-                  <label for="">Titulo</label>
-                  <input type="text" class="form-control" id="titulo" placeholder="Titulo" />
-                </div>
-                <div class="form-group">
-                  <label for="descripcion">Descripcion</label>
-                  <textarea name="" id="descripcion" cols="30" rows="10" maxlength="1000" minlength="100"
-                    class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="urlImg">Imagen</label>
-                  <input type="text" class="form-control" id="urlImg" placeholder="Imagen" />
-                </div>
-                <div class="form-group">
-                  <label for="genero">Genero</label>
-                  <select class="form-select" aria-label="Default select example" id="genero">
-                    <option selected>Elija una opcion</option>
-                    <option value="accion">Accion</option>
-                    <option value="aventura">Aventura</option>
-                    <option value="drama">Drama</option>
-                    <option value="comedia">Comedia</option>
-                  </select>
-                </div>
-                <button type="submit" class="btn btn-primary mt-3" id="btnSubmit">
-                  Guardar
-                </button>
-              </form>
+      <section class="d-flex align-items-center">
+        <p class="m-0">Opciones:</p>
+        <!-- Button Modal -->
+        <button class="btn btn-outline-primary ms-3" id="btnModal">
+          <i class="bi bi-clipboard-check-fill"></i>
+        </button>
+      </section>
+      <section class="mt-4">
+        <h2 class="display-5">Lista de series</h2>
+        <hr />
+        <!-- Contenedor de la tabla -->
+        <article class="table-responsive" id="articleTabla"></article>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="modal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+          data-bs-backdrop="static"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Modal Series</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form id="formSerie">
+                  <div class="form-group">
+                    <label for="codigo">Codigo</label>
+                    <input
+                      type="text"
+                      disabled
+                      class="form-control text-muted"
+                      id="codigo"
+                      placeholder="Codigo"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="">Titulo</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="titulo"
+                      placeholder="Titulo"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="descripcion">Descripcion</label>
+                    <textarea
+                      name=""
+                      id="descripcion"
+                      cols="30"
+                      rows="10"
+                      maxlength="1000"
+                      minlength="100"
+                      class="form-control"
+                    ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="urlImg">Imagen</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="urlImg"
+                      placeholder="Imagen"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="genero">Genero</label>
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                      id="genero"
+                    >
+                      <option selected>Elija una opcion</option>
+                      <option value="accion">Accion</option>
+                      <option value="aventura">Aventura</option>
+                      <option value="drama">Drama</option>
+                      <option value="comedia">Comedia</option>
+                    </select>
+                  </div>
+                  <div class="form-check form-switch mt-2">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="switch_destacar"
+                    />
+                    <label class="form-check-label" for="flexSwitchCheckChecked"
+                      >Destacar Pelicula</label
+                    >
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-primary mt-3"
+                    id="btnSubmit"
+                  >
+                    Guardar
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
-  <footer class="bg-dark text-light py-5">
-    <p class="m-0 text-center">&copy; Todos los derechos reservados</p>
-  </footer>
-</body>
-
+      </section>
+    </main>
+    <footer class="bg-dark text-light py-5">
+      <p class="m-0 text-center">&copy; Todos los derechos reservados</p>
+    </footer>
+  </body>
 </html>

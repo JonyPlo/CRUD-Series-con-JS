@@ -14,6 +14,7 @@ const mostrarOcultarTabla = (listaSeries) => {
                 <th scope="col">Descripcion</th>
                 <th scope="col">Imagen</th>
                 <th scope="col">Genero</th>
+                <th scope="col">Destacado</th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
