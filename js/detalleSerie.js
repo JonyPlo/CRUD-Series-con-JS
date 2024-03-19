@@ -1,11 +1,11 @@
 // Traigo la url de la pagina detalleSerie.html con el parametro y la guardo en una variable
 
 // Forma de extraer parametros de la url con el objeto URL
-//<------- Forma 1 con el objeto URL ------->
+//<------- OPCION 1 ------->
 // const param = window.location.href;
 // const url = new URL(param);
 // console.log(url.searchParams.get("codigo")); //De esta forma se toma el parametro
-//<------- Forma 3 con el objeto URL ------->
+//<------- OPCION 2 ------->
 // let url = (new URL(window.location)).searchParams;
 // console.log(url.get("codigo")); //De esta forma se toma el parametro
 // ---------------------------------------------------------------------

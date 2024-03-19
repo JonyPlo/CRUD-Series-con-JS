@@ -9,19 +9,19 @@ import {
 import mostrarOcultarTabla from './mostrarOcultarTablaAdmin.js';
 
 // Variable con el arreglo donde se guardaran los datos del LS
-let listaSeries = JSON.parse(localStorage.getItem('Series') || '[]').map(
-  (serie) => {
-    let classSerie = new Serie(
-      serie.codigo,
-      serie.titulo,
-      serie.descripcion,
-      serie.urlImg,
-      serie.genero
-    );
-    classSerie.setDestacado = serie.destacado;
-    return classSerie;
-  }
-);
+let listaSeries = JSON.parse(localStorage.getItem('Series') || '[]');
+
+listaSeries.map((serie) => {
+  let classSerie = new Serie(
+    serie.codigo,
+    serie.titulo,
+    serie.descripcion,
+    serie.urlImg,
+    serie.genero
+  );
+  classSerie.setDestacado = serie.destacado;
+  return classSerie;
+});
 
 // Variables de los inputs del form de serie
 let codigo = document.getElementById('codigo');
@@ -44,43 +44,41 @@ const btnSubmit = document.getElementById('btnSubmit');
 mostrarOcultarTabla(listaSeries);
 
 // En esta funcion traigo el body de la tabla y le agrego el html restante para crear la fila con los datos de la serie
-const crearFilas = (serie) => {
+const crearFilas = (serie, index) => {
   const tbody = document.getElementById('tbodySeries');
-  tbody.innerHTML += `
-        <tr>
-          <td scope="row">${serie.codigo}</td>
-          <td>${serie.titulo}</td>
-          <td>
-            <div class="td-descripcion">
-              ${serie.descripcion}
-            </div>
-          </td>
-          <td>
-            ${serie.urlImg}
-          </td>
-          <td class='text-capitalize'>${serie.genero}</td>
-          <td class='text-capitalize'>${serie.destacado ? 'Si' : 'No'}</td>
-          <td class="buttons-table tex-center">
-            <button class="btn btn-warning" onclick="btnModalModificar('${
-              serie.codigo
-            }')">
-              <i class="bi bi-pencil-square"></i>
-            </button>
-            <button class="btn btn-danger ms-1" onclick="eliminarSerie('${
-              serie.codigo
-            }', '${serie.titulo}')">
-              <i class="bi bi-x-square"></i>
-            </button>
-          </td>
-        </tr>
-        `;
+  tbody.innerHTML += /* HTML */ `
+    <tr>
+      <td scope="row">${serie.codigo}</td>
+      <td>${serie.titulo}</td>
+      <td>
+        <div class="td-descripcion">${serie.descripcion}</div>
+      </td>
+      <td>${serie.urlImg}</td>
+      <td class="text-capitalize">${serie.genero}</td>
+      <td class="text-capitalize">${serie.destacado ? 'Si' : 'No'}</td>
+      <td class="buttons-table tex-center">
+        <button
+          class="btn btn-warning"
+          onclick="btnModalModificar('${serie.codigo}')"
+        >
+          <i class="bi bi-pencil-square"></i>
+        </button>
+        <button
+          class="btn btn-danger ms-1"
+          onclick="eliminarSerie('${index}', '${serie.titulo}')"
+        >
+          <i class="bi bi-x-square"></i>
+        </button>
+      </td>
+    </tr>
+  `;
 };
 
 // Con estas funciones recorro el arreglo de listaSeries y segun la longitud que tenga son las veces que se ejecutara la funcion crearFilas para agregar las filas a la tabla con los datos almacenados en el LS
 const cargaInicial = () => {
   if (listaSeries.length > 0) {
-    listaSeries.map((serie) => {
-      crearFilas(serie);
+    listaSeries.map((serie, index) => {
+      crearFilas(serie, index);
     });
   }
 };
@@ -98,9 +96,9 @@ btnModalCrear.addEventListener('click', () => {
 });
 
 // Validaciones en tiempo real
-titulo.addEventListener('keyup', () => validarTitulo(titulo));
-descripcion.addEventListener('keyup', () => validarDescripcion(descripcion));
-urlImg.addEventListener('keyup', () => validarUrl(urlImg));
+titulo.addEventListener('input', () => validarTitulo(titulo));
+descripcion.addEventListener('input', () => validarDescripcion(descripcion));
+urlImg.addEventListener('input', () => validarUrl(urlImg));
 genero.addEventListener('change', () => validarGenero(genero));
 
 // Creamos la funcion para dar de alta una Serie
@@ -188,7 +186,7 @@ const guardarSerieLS = (e) => {
 formulario.addEventListener('submit', guardarSerieLS);
 
 // Funcion para eliminar una serie de la tabla
-window.eliminarSerie = (codigo, titulo) => {
+window.eliminarSerie = (index, titulo) => {
   Swal.fire({
     title: `Esta seguro que desea eliminar la serie ${titulo}?`,
     text: 'Si la elimina no se podra recuperar!',
@@ -200,9 +198,10 @@ window.eliminarSerie = (codigo, titulo) => {
     cancelButtonText: 'Cancelar',
   }).then((result) => {
     if (result.isConfirmed) {
-      let nuevaLista = listaSeries.filter(
-        (itemSerie) => itemSerie.codigo !== codigo
-      );
+      // let nuevaLista = listaSeries.filter(
+      //   (itemSerie) => itemSerie.codigo !== codigo
+      // );
+      let nuevaLista = listaSeries.toSpliced(index, 1);
       listaSeries = nuevaLista; //Guardo el arreglo nuevo sin la serie que acabamos de eliminar en el arreglo principal
       guardarListaSerie(); // Guardo el arreglo actualizado en el LS
       mostrarOcultarTabla(listaSeries); // Esta funcion tambien borra todas las filas que tenga la tabla

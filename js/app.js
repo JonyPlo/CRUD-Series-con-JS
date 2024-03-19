@@ -1,41 +1,41 @@
-import mostrarOcultarCards from "./mostrarOcultarCardsIndex.js";
+import mostrarOcultarCards from './mostrarOcultarCardsIndex.js';
 
-const buscar = document.getElementById("buscar");
+const buscar = document.getElementById('buscar');
 
 //Traigo las series almacenadas en el localStorage
 let listaSeries =
   localStorage.length > 0
-    ? JSON.parse(localStorage.getItem("Series"))
-    : localStorage.setItem("Series", JSON.stringify([]));
+    ? JSON.parse(localStorage.getItem('Series'))
+    : localStorage.setItem('Series', JSON.stringify([]));
 
 mostrarOcultarCards(listaSeries); // Funcion para verificar si el LS tiene datos muestra la tabla, de lo contrario muestra un texto informando que no hay elementos para mostrar
 
 // En esta funcion traigo el div que contendra todas las cards y le agrego el html restante para crear una card con los datos de la serie
 const crearCards = (serie) => {
-  const contenedorCards = document.getElementById("contenedorCards"); //Este contenedor se crea con la funcion mostrarOcultarCards()
-  contenedorCards.innerHTML += `
- <div class="col">
-  <div class="card shadow">
-  <div class="overflow-hidden">
-    <img
-      src="${serie.urlImg}"
-      class="card-img-index w-100"
-      alt="${serie.titulo}"
-      onclick="redireccionarPaginaDetalle('${serie.codigo}')"
-    />
-    </div>
-    <div class="card-body px-3 pb-0">
-      <h5 class="card-title">${serie.titulo}</h5>
-      <p class="card-text card-descripcion">
-        ${serie.descripcion}
-      </p>
-        <div class="card-footer px-0 py-3">
-          <span class="badge rounded-pill text-bg-primary text-capitalize">${serie.genero}</span>
+  const contenedorCards = document.getElementById('contenedorCards'); //Este contenedor se crea con la funcion mostrarOcultarCards()
+  contenedorCards.innerHTML += /* HTML */ `
+    <div class="col">
+      <div class="card shadow">
+        <div class="overflow-hidden">
+          <img
+            src="${serie.urlImg}"
+            class="card-img-index w-100"
+            alt="${serie.titulo}"
+            onclick="redireccionarPaginaDetalle('${serie.codigo}')"
+          />
         </div>
+        <div class="card-body px-3 pb-0">
+          <h5 class="card-title">${serie.titulo}</h5>
+          <p class="card-text card-descripcion">${serie.descripcion}</p>
+          <div class="card-footer px-0 py-3">
+            <span class="badge rounded-pill text-bg-primary text-capitalize"
+              >${serie.genero}</span
+            >
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-    `;
+  `;
 };
 
 // Con esta funcione recorro el arreglo de listaSeries y segun la longitud que tenga son las veces que se ejecutara la funcion crearFilas para agregar las filas a la tabla con los datos almacenados en el LS
@@ -63,13 +63,20 @@ const filtrarSeries = (buscarParam) => {
     const { titulo, genero } = serie;
     let tituloSerie = titulo.toLowerCase();
     let generoSerie = genero.toLowerCase();
+
+    // Metodo usando indexOf()
+    // return (
+    //   tituloSerie.indexOf(palabraClave) > -1 ||
+    //   generoSerie.indexOf(palabraClave) > -1
+    // );
+
+    // Metodo usando includes()
     return (
-      tituloSerie.indexOf(palabraClave) > -1 ||
-      generoSerie.indexOf(palabraClave) > -1
-      );
-    });
+      tituloSerie.includes(palabraClave) || generoSerie.includes(palabraClave)
+    );
+  });
   mostrarOcultarCards(nuevoFiltro);
   cargaInicialIndex(nuevoFiltro);
 };
 
-buscar.addEventListener("keyup",() => filtrarSeries(buscar));
+buscar.addEventListener('keyup', () => filtrarSeries(buscar));
